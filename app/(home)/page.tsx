@@ -1,10 +1,16 @@
-import Image from "next/image";
+import { ptBR } from "date-fns/locale";
 import Header from "../_components/header";
+import { format } from "date-fns";
 
 export default function Home() {
   return (
     <div>
       <Header />
+
+      <div className="px-5 pt-5">
+        <h2 className="text-xl font-bold">Olá, Miguel!</h2>
+        <p className="text-sm">{format(new Date(), "EEEE',' dd 'de' MMMM 'de' yyyy", { locale: ptBR })}</p>
+      </div>
     </div>
   );
 }
