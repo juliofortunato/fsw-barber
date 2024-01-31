@@ -3,13 +3,23 @@
 import { Button } from "@/app/_components/ui/button";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { Service } from "@prisma/client";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 
 interface ServiceItemProps {
   service: Service;
+  isAuthenticated: boolean;
 }
 
-const ServiceItem = ({ service }: ServiceItemProps) => {
+const ServiceItem = ({ service, isAuthenticated }: ServiceItemProps) => {
+  const handleBookingClick = (e: MouseEvent) => {
+    if (!isAuthenticated) {
+      return signIn("google");
+    }
+
+    // TODO: abrir modal de agendamento
+  };
+
   return (
     <Card>
       <CardContent className="p-3">
@@ -33,7 +43,11 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                   currency: "BRL",
                 }).format(Number(service.price))}
               </p>
-              <Button className="" variant="secondary">
+              <Button
+                className=""
+                variant="secondary"
+                onClick={handleBookingClick}
+              >
                 Reservar
               </Button>
             </div>
