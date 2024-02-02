@@ -1,3 +1,5 @@
+"use client";
+
 import { Prisma } from "@prisma/client";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
@@ -15,6 +17,10 @@ import {
 } from "./ui/sheet";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { cancelBooking } from "../_actions/cancel-booking";
+import { toast } from "sonner";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -26,7 +32,20 @@ interface BookingItemProps {
 }
 
 const BookingItem = ({ booking }: BookingItemProps) => {
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const isBookingConfirmed = isFuture(booking.date);
+
+  const handleCancelClick = async () => {
+    setIsDeleteLoading(true);
+    try {
+      cancelBooking(booking.id);
+      toast.success("Reserva cancelada com sucesso!");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsDeleteLoading(false);
+    }
+  };
 
   return (
     <Sheet>
@@ -145,9 +164,14 @@ const BookingItem = ({ booking }: BookingItemProps) => {
               <Button
                 variant="destructive"
                 className="w-full"
-                disabled={!isBookingConfirmed}
+                disabled={!isBookingConfirmed || isDeleteLoading}
+                onClick={handleCancelClick}
               >
-                Cancelar Reserva
+                {isDeleteLoading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "Cancelar Reserva"
+                )}
               </Button>
             )}
           </SheetFooter>
