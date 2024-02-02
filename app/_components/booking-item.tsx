@@ -21,6 +21,17 @@ import { cancelBooking } from "../_actions/cancel-booking";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -161,18 +172,39 @@ const BookingItem = ({ booking }: BookingItemProps) => {
             </SheetClose>
 
             {isBookingConfirmed && (
-              <Button
-                variant="destructive"
-                className="w-full"
-                disabled={!isBookingConfirmed || isDeleteLoading}
-                onClick={handleCancelClick}
-              >
-                {isDeleteLoading ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  "Cancelar Reserva"
-                )}
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  <Button variant="destructive" className="w-full">
+                    Cancelar Reserva
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="w-[90%]">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Deseja mesmo cancelar essa reserva?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Uma vez cancelada, não será possível reverter essa ação.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter className="flex-row gap-3">
+                    <AlertDialogCancel className="w-full mt-0">
+                      Voltar
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      className="w-full"
+                      onClick={handleCancelClick}
+                      disabled={!isBookingConfirmed || isDeleteLoading}
+                    >
+                      {isDeleteLoading ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      ) : (
+                        "Cancelar Reserva"
+                      )}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             )}
           </SheetFooter>
         </div>

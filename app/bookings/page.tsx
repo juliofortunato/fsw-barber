@@ -75,8 +75,10 @@ const BookingsPage = async () => {
           </>
         )}
 
-        {!finishedBookings && !confirmedBookings && (
-          <p>Você ainda não realizou nenhum agendamento</p>
+        {!finishedBookings.length && !confirmedBookings.length && (
+          <p className="mt-6 text-gray-400">
+            Você ainda não realizou nenhum agendamento!
+          </p>
         )}
       </div>
     </>

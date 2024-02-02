@@ -46,7 +46,7 @@ export default async function Home() {
         <Search />
       </div>
 
-      {confirmedBookings && (
+      {confirmedBookings.length > 0 && (
         <div className="mt-6">
           <h2 className="text-xs uppercase text-gray-400 font-bold mb-3 pl-5">
             Agendamentos
