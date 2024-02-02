@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <Card className="rounded-none">
       <CardContent className="p-5 justify-between flex flex-row">
-        <Link href="/">
+        <Link className="flex" href="/">
           <Image src="/logo.svg" alt="FSW Barber" height={22} width={120} />
         </Link>
         <Sheet>
