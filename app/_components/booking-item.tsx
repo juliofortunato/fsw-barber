@@ -32,6 +32,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
+import PhoneNumber from "../barbershops/[id]/_components/phone-number";
 
 interface BookingItemProps {
   booking: Prisma.BookingGetPayload<{
@@ -163,6 +164,18 @@ const BookingItem = ({ booking }: BookingItemProps) => {
               </dl>
             </CardContent>
           </Card>
+
+          {booking.barbershop.phoneNumbers.length > 0 && (
+            <div className="flex flex-col gap-3 mt-6 mb-8">
+              {booking.barbershop.phoneNumbers.map((phoneNumber) => (
+                <PhoneNumber
+                  key={crypto.randomUUID()}
+                  phoneNumber={phoneNumber}
+                  hideCallButton
+                />
+              ))}
+            </div>
+          )}
 
           <SheetFooter className="flex-row gap-3 mt-6">
             <SheetClose asChild>

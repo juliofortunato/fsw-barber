@@ -6,10 +6,11 @@ import { Button } from "@/app/_components/ui/button";
 import { toast } from "sonner";
 
 interface PhoneNumberProps {
+  hideCallButton?: boolean;
   phoneNumber: string;
 }
 
-const PhoneNumber = ({ phoneNumber }: PhoneNumberProps) => {
+const PhoneNumber = ({ phoneNumber, hideCallButton }: PhoneNumberProps) => {
   const handleCopyClick = async () => {
     await navigator.clipboard.writeText(phoneNumber);
     toast("Número de telefone copiado para a área de transferência!", {
@@ -28,9 +29,11 @@ const PhoneNumber = ({ phoneNumber }: PhoneNumberProps) => {
       </div>
 
       <div className="flex items-center gap-2">
-        <Button variant="secondary" size="icon" className="px-7" asChild>
-          <a href={`tel:${phoneNumber}`}>Ligar</a>
-        </Button>
+        {!hideCallButton && (
+          <Button variant="secondary" size="icon" className="px-7" asChild>
+            <a href={`tel:${phoneNumber}`}>Ligar</a>
+          </Button>
+        )}
         <Button variant="secondary" size="icon" onClick={handleCopyClick}>
           <CopyIcon />
         </Button>
